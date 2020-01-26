@@ -4,7 +4,6 @@ create table if not exists user
     name     varchar(255) comment '用户名',
     email    varchar(255) comment '用户邮箱',
     password varchar(255) comment '密码',
-    salt     varchar(255) comment '盐',
     role     int comment '角色',
     constraint user_pk primary key (id)
 );
