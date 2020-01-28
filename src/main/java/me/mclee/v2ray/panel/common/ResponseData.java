@@ -46,4 +46,19 @@ public class ResponseData<T extends Serializable> {
         responseData.setErrorCode(0);
         return responseData;
     }
+
+    public static <T extends Serializable> ResponseData<T> success(T obj) {
+        ResponseData<T> responseData = new ResponseData<>();
+        responseData.setErrorCode(0);
+        responseData.setData(obj);
+        return responseData;
+    }
+
+    public static ResponseData<Serializable> fail(int errorCode) {
+        ResponseData<Serializable> responseData = new ResponseData<>();
+        responseData.setErrorCode(errorCode);
+        String message = BundleMassageUtils.getErrorCodeMessages(errorCode);
+        responseData.setMessage(message);
+        return responseData;
+    }
 }

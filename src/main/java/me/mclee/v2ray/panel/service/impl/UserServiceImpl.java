@@ -4,6 +4,7 @@ import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
 import me.mclee.v2ray.panel.entity.User;
 import me.mclee.v2ray.panel.entity.UserExample;
+import me.mclee.v2ray.panel.entity.model.UserModel;
 import me.mclee.v2ray.panel.mapper.UserMapper;
 import me.mclee.v2ray.panel.service.UserService;
 import org.slf4j.Logger;
@@ -52,6 +53,24 @@ public class UserServiceImpl implements UserService {
         example.or().andNameEqualTo(username);
         List<User> userList = userMapper.selectByExample(example);
         return userList.stream().findFirst().orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    /**
+     * 根据用户名查询用户信息
+     *
+     * @param name 用户名
+     * @return 用户信息
+     * @throws AppException 查询用户失败
+     */
+    @Override
+    public UserModel queryUserModelByName(String name) throws AppException {
+        User user = queryUserByName(name);
+        UserModel userModel = new UserModel();
+        userModel.setId(user.getId());
+        userModel.setEmail(user.getEmail());
+        userModel.setName(user.getName());
+        userModel.setRole(user.getRole());
+        return userModel;
     }
 
     /**

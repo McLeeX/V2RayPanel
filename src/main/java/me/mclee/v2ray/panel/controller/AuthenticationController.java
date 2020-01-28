@@ -1,12 +1,14 @@
 package me.mclee.v2ray.panel.controller;
 
 import me.mclee.v2ray.panel.common.AppException;
-import me.mclee.v2ray.panel.common.ErrorCode;
 import me.mclee.v2ray.panel.common.ResponseData;
 import me.mclee.v2ray.panel.entity.User;
-import me.mclee.v2ray.panel.entity.security.AuthenticationBean;
+import me.mclee.v2ray.panel.entity.model.UserModel;
 import me.mclee.v2ray.panel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,28 +22,6 @@ public class AuthenticationController {
     private UserService userService;
 
     /**
-     * 登录成功处理
-     *
-     * @param authentication 登录信息
-     * @return 成功消息
-     */
-    @PostMapping("/login/success")
-    private ResponseData<Serializable> loginSuccess(@RequestBody AuthenticationBean authentication) {
-        return ResponseData.success();
-    }
-
-    /**
-     * 登录失败处理
-     *
-     * @param authentication 登录失败
-     * @return 失败消息
-     */
-    @PostMapping("/login/failure")
-    private ResponseData<Serializable> loginFailure(@RequestBody AuthenticationBean authentication) throws AppException {
-        throw new AppException(ErrorCode.AUTHENTICATION_ERROR);
-    }
-
-    /**
      * 用户注册
      *
      * @param user 用户信息
@@ -52,5 +32,19 @@ public class AuthenticationController {
     private ResponseData<Serializable> signUp(@RequestBody User user) throws AppException {
         userService.createUser(user);
         return ResponseData.success();
+    }
+
+    /**
+     * 获取当前用户信息
+     *
+     * @return 当前用户信息
+     * @throws AppException 用户信息查询失败
+     */
+    @GetMapping("/auth/me")
+    private ResponseData<UserModel> myInformation() throws AppException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        UserModel userModel = userService.queryUserModelByName(username);
+        return ResponseData.success(userModel);
     }
 }

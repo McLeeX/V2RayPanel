@@ -15,7 +15,7 @@ public class AppException extends Exception {
     }
 
     public AppException(int errorCode) {
-        super(BundleMassageUtils.getMessages("errorCode", Locale.getDefault(), Integer.toString(errorCode)));
+        super(BundleMassageUtils.getMessages("errorCode", Integer.toString(errorCode)));
         this.errorCode = errorCode;
     }
 }
