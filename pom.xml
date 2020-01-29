@@ -76,8 +76,12 @@
             <artifactId>h2</artifactId>
             <version>1.4.200</version>
         </dependency>
-        <!--    cglib    -->
-
+        <!--    http-client    -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.11</version>
+        </dependency>
 
     </dependencies>
     <build>
