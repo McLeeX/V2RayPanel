@@ -82,7 +82,17 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.11</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>fluent-hc</artifactId>
+            <version>4.5.11</version>
+        </dependency>
+        <!--    commons-lang    -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
     </dependencies>
     <build>
         <extensions>
