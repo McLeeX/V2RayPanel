@@ -1,12 +1,14 @@
 package me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.vmess;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.InboundSettings;
 
 import java.util.List;
 
 public class VMess extends InboundSettings {
     private List<Client> clients;
-    private Default aDefault;
+    @JsonProperty("default")
+    private Default defaultConfig;
     private Detour detour;
     private Boolean disableInsecureEncryption;
 
@@ -18,12 +20,12 @@ public class VMess extends InboundSettings {
         this.clients = clients;
     }
 
-    public Default getaDefault() {
-        return aDefault;
+    public Default getDefaultConfig() {
+        return defaultConfig;
     }
 
-    public void setaDefault(Default aDefault) {
-        this.aDefault = aDefault;
+    public void setDefaultConfig(Default defaultConfig) {
+        this.defaultConfig = defaultConfig;
     }
 
     public Detour getDetour() {

@@ -15,7 +15,7 @@ public class Rule {
     private List<String> inboundTag;
     private List<Protocol> protocol;
     private String attrs;
-    private String outBoundTag;
+    private String outboundTag;
     private String balancerTag;
 
     public String getType() {
@@ -98,12 +98,12 @@ public class Rule {
         this.attrs = attrs;
     }
 
-    public String getOutBoundTag() {
-        return outBoundTag;
+    public String getOutboundTag() {
+        return outboundTag;
     }
 
-    public void setOutBoundTag(String outBoundTag) {
-        this.outBoundTag = outBoundTag;
+    public void setOutboundTag(String outboundTag) {
+        this.outboundTag = outboundTag;
     }
 
     public String getBalancerTag() {

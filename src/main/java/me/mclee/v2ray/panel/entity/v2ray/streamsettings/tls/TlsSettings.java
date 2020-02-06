@@ -10,6 +10,7 @@ public class TlsSettings {
     private List<String> alpn;
     private List<Certificate> certificates;
     private Boolean disableSystemRoot;
+    private Boolean allowInsecureCiphers;
 
     public String getServerName() {
         return serverName;
@@ -49,5 +50,13 @@ public class TlsSettings {
 
     public void setDisableSystemRoot(Boolean disableSystemRoot) {
         this.disableSystemRoot = disableSystemRoot;
+    }
+
+    public Boolean getAllowInsecureCiphers() {
+        return allowInsecureCiphers;
+    }
+
+    public void setAllowInsecureCiphers(Boolean allowInsecureCiphers) {
+        this.allowInsecureCiphers = allowInsecureCiphers;
     }
 }

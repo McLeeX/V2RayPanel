@@ -5,7 +5,9 @@ import java.util.Map;
 
 public class Dns {
     private Map<String, String> hosts;
-    private List<Service> services;
+    private List<Server> servers;
+    private String clientIp;
+    private String tag;
 
     public Map<String, String> getHosts() {
         return hosts;
@@ -15,11 +17,27 @@ public class Dns {
         this.hosts = hosts;
     }
 
-    public List<Service> getServices() {
-        return services;
+    public List<Server> getServers() {
+        return servers;
     }
 
-    public void setServices(List<Service> services) {
-        this.services = services;
+    public void setServers(List<Server> servers) {
+        this.servers = servers;
+    }
+
+    public String getClientIp() {
+        return clientIp;
+    }
+
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@JsonDeserialize(using = Service.ServiceDeserializer.class)
-public class Service {
+@JsonDeserialize(using = Server.ServiceDeserializer.class)
+public class Server {
 
     private static final String PROTOCOL_HTTP = "http://";
     private static final String PROTOCOL_HTTPS = "https://";
@@ -66,11 +66,11 @@ public class Service {
                 || address.startsWith(PROTOCOL_HTTP_LOCAL) || address.startsWith(PROTOCOL_HTTPS_LOCAL));
     }
 
-    public static class ServiceDeserializer extends JsonDeserializer<Service> {
+    public static class ServiceDeserializer extends JsonDeserializer<Server> {
 
         @Override
-        public Service deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-            Service service = new Service();
+        public Server deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+            Server service = new Server();
             if (p.hasToken(JsonToken.VALUE_STRING)) {
                 String address = p.getText();
                 service.setAddress(address);
@@ -98,7 +98,7 @@ public class Service {
     }
 
     public static void main(String[] args) {
-        Service service = JsonUtil.string2Obj("{\"address\": \"1.2.3.4\", \"port\": 5353, \"domains\": [\"domain:v2ray.com\"], \"expectIPs\": [\"geoip:cn\"] }", Service.class);
-        System.out.println(JsonUtil.obj2String(service));
+        Server server = JsonUtil.string2Obj("{\"address\": \"1.2.3.4\", \"port\": 5353, \"domains\": [\"domain:v2ray.com\"], \"expectIPs\": [\"geoip:cn\"] }", Server.class);
+        System.out.println(JsonUtil.obj2String(server));
     }
 }
