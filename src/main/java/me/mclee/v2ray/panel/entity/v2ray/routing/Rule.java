@@ -1,5 +1,7 @@
 package me.mclee.v2ray.panel.entity.v2ray.routing;
 
+import me.mclee.v2ray.panel.entity.v2ray.Network;
+
 import java.util.List;
 
 public class Rule {
