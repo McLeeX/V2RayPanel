@@ -1,11 +1,9 @@
 package me.mclee.v2ray.panel.entity.v2ray.inbounds;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.JsonNode;
+import me.mclee.v2ray.panel.common.utils.JsonUtil;
 import me.mclee.v2ray.panel.entity.v2ray.Protocol;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.allocate.Allocate;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.InboundSettings;
@@ -18,15 +16,11 @@ import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.vmess.VMess;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.sniffing.Sniffing;
 import me.mclee.v2ray.panel.entity.v2ray.streamsettings.StreamSettings;
 
-import java.io.IOException;
-
-@JsonPropertyOrder({"protocol", "settings"})
 public class Inbound {
     private String port;
     private String listen;
     private Protocol protocol;
-    @JsonDeserialize(using = InboundSettingDeserializer.class)
-    private InboundSettings settings;
+    private JsonNode settings;
     private StreamSettings streamSettings;
     private String tag;
     private Sniffing sniffing;
@@ -56,11 +50,43 @@ public class Inbound {
         this.protocol = protocol;
     }
 
-    public InboundSettings getSettings() {
+    @JsonGetter("settings")
+    public JsonNode getSettingsJsonNode() {
         return settings;
     }
 
-    public void setSettings(InboundSettings settings) {
+    public InboundSettings getSettings() {
+        InboundSettings inboundSetting = null;
+        if (protocol != null && settings != null) {
+            String sSettings = settings.toString();
+            switch (protocol) {
+                case HTTP:
+                    inboundSetting = JsonUtil.string2Obj(sSettings, HTTP.class);
+                    break;
+                case DokodemoDoor:
+                    inboundSetting = JsonUtil.string2Obj(sSettings, DokodemoDoor.class);
+                    break;
+                case MTProto:
+                    inboundSetting = JsonUtil.string2Obj(sSettings, MTProto.class);
+                    break;
+                case Shadowsocks:
+                    inboundSetting = JsonUtil.string2Obj(sSettings, Shadowsocks.class);
+                    break;
+                case Socks:
+                    inboundSetting = JsonUtil.string2Obj(sSettings, Socks.class);
+                    break;
+                case VMess:
+                    inboundSetting = JsonUtil.string2Obj(sSettings, VMess.class);
+                    break;
+                default:
+                    inboundSetting = null;
+            }
+        }
+        return inboundSetting;
+    }
+
+    @JsonSetter("settings")
+    public void setSettings(JsonNode settings) {
         this.settings = settings;
     }
 
@@ -96,40 +122,4 @@ public class Inbound {
         this.allocate = allocate;
     }
 
-    public static class InboundSettingDeserializer extends JsonDeserializer<InboundSettings> {
-
-        @Override
-        public InboundSettings deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-            InboundSettings inboundSetting = null;
-            Inbound inbound = (Inbound) p.getParsingContext().getParent().getCurrentValue();
-            if (inbound != null) {
-                Protocol protocol = inbound.getProtocol();
-                if (protocol != null) {
-                    switch (protocol) {
-                        case HTTP:
-                            inboundSetting = ctxt.readValue(p, HTTP.class);
-                            break;
-                        case DokodemoDoor:
-                            inboundSetting = ctxt.readValue(p, DokodemoDoor.class);
-                            break;
-                        case MTProto:
-                            inboundSetting = ctxt.readValue(p, MTProto.class);
-                            break;
-                        case Shadowsocks:
-                            inboundSetting = ctxt.readValue(p, Shadowsocks.class);
-                            break;
-                        case Socks:
-                            inboundSetting = ctxt.readValue(p, Socks.class);
-                            break;
-                        case VMess:
-                            inboundSetting = ctxt.readValue(p, VMess.class);
-                            break;
-                        default:
-                            inboundSetting = null;
-                    }
-                }
-            }
-            return inboundSetting;
-        }
-    }
 }

@@ -1,11 +1,13 @@
 package me.mclee.v2ray.panel.entity.v2ray.outbounds;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.JsonNode;
+import me.mclee.v2ray.panel.common.utils.JsonUtil;
 import me.mclee.v2ray.panel.entity.v2ray.Protocol;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.mux.Mux;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.OutboundSettings;
@@ -22,12 +24,10 @@ import me.mclee.v2ray.panel.entity.v2ray.streamsettings.StreamSettings;
 
 import java.io.IOException;
 
-@JsonPropertyOrder({"protocol", "settings"})
 public class Outbound {
     private String sendThrough;
     private Protocol protocol;
-    @JsonDeserialize(using = OutboundSettingDeserializer.class)
-    private OutboundSettings settings;
+    private JsonNode settings;
     private String tag;
     private StreamSettings streamSettings;
     private ProxySettings proxySettings;
@@ -49,11 +49,49 @@ public class Outbound {
         this.protocol = protocol;
     }
 
-    public OutboundSettings getSettings() {
+    @JsonGetter("settings")
+    public JsonNode getSettingsJsonNode() {
         return settings;
     }
 
-    public void setSettings(OutboundSettings settings) {
+    public OutboundSettings getSettings() {
+        OutboundSettings outboundSetting = null;
+        if (protocol != null && settings != null) {
+            String sSettings = settings.toString();
+            switch (protocol) {
+                case Blackhole:
+                    outboundSetting = JsonUtil.string2Obj(sSettings, Blackhole.class);
+                    break;
+                case DNS:
+                    outboundSetting = JsonUtil.string2Obj(sSettings, Dns.class);
+                    break;
+                case Freedom:
+                    outboundSetting = JsonUtil.string2Obj(sSettings, Freedom.class);
+                    break;
+                case HTTP:
+                    outboundSetting = JsonUtil.string2Obj(sSettings, Http.class);
+                    break;
+                case MTProto:
+                    outboundSetting = JsonUtil.string2Obj(sSettings, MTProto.class);
+                    break;
+                case Shadowsocks:
+                    outboundSetting = JsonUtil.string2Obj(sSettings, Shadowsocks.class);
+                    break;
+                case Socks:
+                    outboundSetting = JsonUtil.string2Obj(sSettings, Socks.class);
+                    break;
+                case VMess:
+                    outboundSetting = JsonUtil.string2Obj(sSettings, VMess.class);
+                    break;
+                default:
+                    outboundSetting = null;
+            }
+        }
+        return outboundSetting;
+    }
+
+    @JsonSetter("settings")
+    public void setSettings(JsonNode settings) {
         this.settings = settings;
     }
 
