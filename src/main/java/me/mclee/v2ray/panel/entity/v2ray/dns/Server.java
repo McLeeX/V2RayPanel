@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import me.mclee.v2ray.panel.common.utils.JsonUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -95,10 +94,5 @@ public class Server {
             }
             return service;
         }
-    }
-
-    public static void main(String[] args) {
-        Server server = JsonUtil.string2Obj("{\"address\": \"1.2.3.4\", \"port\": 5353, \"domains\": [\"domain:v2ray.com\"], \"expectIPs\": [\"geoip:cn\"] }", Server.class);
-        System.out.println(JsonUtil.obj2String(server));
     }
 }
