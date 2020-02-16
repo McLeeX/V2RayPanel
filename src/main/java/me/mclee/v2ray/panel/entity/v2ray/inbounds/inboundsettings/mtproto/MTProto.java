@@ -1,6 +1,12 @@
 package me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.mtproto;
 
+import com.google.protobuf.ByteString;
+import com.v2ray.core.common.serial.TypedMessage;
+import com.v2ray.core.proxy.mtproto.Account;
+import com.v2ray.core.proxy.mtproto.ServerConfig;
+import me.mclee.v2ray.panel.common.utils.CommonUtils;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.InboundSettings;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -13,5 +19,21 @@ public class MTProto extends InboundSettings {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    @Override
+    public ServerConfig toGRpcType() {
+        ServerConfig.Builder builder = ServerConfig.newBuilder();
+        if (!CollectionUtils.isEmpty(users)) {
+            for (User user : users) {
+                TypedMessage account = CommonUtils
+                        .convertToTypedMessage(Account.newBuilder().setSecret(ByteString.copyFromUtf8(user.getSecret()))
+                                                      .build());
+                com.v2ray.core.common.protocol.User.Builder userBuilder = com.v2ray.core.common.protocol.User
+                        .newBuilder().setLevel(user.getLevel()).setEmail(user.getEmails()).setAccount(account);
+                builder.addUser(userBuilder);
+            }
+        }
+        return builder.build();
     }
 }

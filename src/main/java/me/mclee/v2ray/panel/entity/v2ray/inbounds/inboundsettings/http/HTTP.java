@@ -1,7 +1,10 @@
 package me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.http;
 
+import com.v2ray.core.proxy.http.ServerConfig;
+import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.entity.v2ray.Account;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.InboundSettings;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -41,5 +44,25 @@ public class HTTP extends InboundSettings {
 
     public void setUserLevel(Integer userLevel) {
         this.userLevel = userLevel;
+    }
+
+    @Override
+    public ServerConfig toGRpcType() throws AppException {
+        ServerConfig.Builder builder = ServerConfig.newBuilder();
+        if (this.timeout != null) {
+            builder.setTimeout(this.timeout);
+        }
+        if (this.allowTransparent != null) {
+            builder.setAllowTransparent(this.allowTransparent);
+        }
+        if (this.userLevel != null) {
+            builder.setUserLevel(this.userLevel);
+        }
+        if (!CollectionUtils.isEmpty(this.accounts)) {
+            for (Account account : this.accounts) {
+                builder.putAccounts(account.getUser(), account.getPass());
+            }
+        }
+        return builder.build();
     }
 }
