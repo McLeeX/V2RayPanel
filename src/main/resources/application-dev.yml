@@ -5,9 +5,13 @@ mybatis:
   mapper-locations: classpath:/mybatis/mapper/*.xml
   config-location: classpath:/mybatis/config/config.xml
 
+logging:
+  level:
+    root: info
+
 spring:
   datasource:
-    url: jdbc:h2:file:D:\database
+    url: jdbc:h2:file:~\database
     username: V2RayPanel
     password: b9ebd154-508c-40f9-ab2c-16f1996fe793
     driver-class-name: org.h2.Driver

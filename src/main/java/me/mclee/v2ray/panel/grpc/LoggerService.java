@@ -19,6 +19,9 @@ public class LoggerService implements Closeable {
         loggerServiceBlockingStub = LoggerServiceGrpc.newBlockingStub(channel);
     }
 
+    /**
+     * 重启 V2RAY 日志服务
+     */
     public void restartLogger() {
         RestartLoggerResponse ignored = loggerServiceBlockingStub.restartLogger(RestartLoggerRequest.newBuilder().build());
     }

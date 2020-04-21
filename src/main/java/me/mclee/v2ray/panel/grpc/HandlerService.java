@@ -21,6 +21,11 @@ public class HandlerService implements Closeable {
     private final ManagedChannel channel;
     private final HandlerServiceGrpc.HandlerServiceBlockingStub handlerServiceBlockingStub;
 
+    public HandlerService(String host, int port) {
+        channel = ManagedChannelBuilder.forAddress(host, port).build();
+        handlerServiceBlockingStub = HandlerServiceGrpc.newBlockingStub(channel);
+    }
+
     /**
      * 转化需要的结构体为TypedMessage
      *
@@ -29,13 +34,8 @@ public class HandlerService implements Closeable {
      */
     private TypedMessage convertToTypedMessage(GeneratedMessageV3 message) {
         return TypedMessage.newBuilder()
-                           .setType(message.getDescriptorForType().getFullName())
-                           .setValue(message.toByteString()).build();
-    }
-
-    public HandlerService(String host, int port) {
-        channel = ManagedChannelBuilder.forAddress(host, port).build();
-        handlerServiceBlockingStub = HandlerServiceGrpc.newBlockingStub(channel);
+                .setType(message.getDescriptorForType().getFullName())
+                .setValue(message.toByteString()).build();
     }
 
     /**
@@ -46,8 +46,8 @@ public class HandlerService implements Closeable {
     public void addInbound(@NotNull Inbound inbound) throws AppException {
         InboundHandlerConfig inboundConfig = inbound.toInboundHandlerConfig();
         AddInboundResponse ignored = handlerServiceBlockingStub.addInbound(AddInboundRequest.newBuilder()
-                                                                                            .setInbound(inboundConfig)
-                                                                                            .build());
+                .setInbound(inboundConfig)
+                .build());
     }
 
     /**
@@ -68,14 +68,40 @@ public class HandlerService implements Closeable {
      */
     public void addVmessInboundUser(String tag, @NotNull Client vmessInboundUser) {
         Account account = Account.newBuilder().setId(vmessInboundUser.getId().toString())
-                                 .setAlterId(vmessInboundUser.getAlterId()).build();
+                .setAlterId(vmessInboundUser.getAlterId()).build();
         User user = User.newBuilder().setLevel(vmessInboundUser.getLevel())
-                        .setEmail(vmessInboundUser.getEmail()).setAccount(convertToTypedMessage(account)).build();
+                .setEmail(vmessInboundUser.getEmail()).setAccount(convertToTypedMessage(account)).build();
         AddUserOperation operation = AddUserOperation.newBuilder().setUser(user).build();
         AlterInboundRequest request = AlterInboundRequest.newBuilder().setTag(tag)
-                                                         .setOperation(convertToTypedMessage(operation)).build();
+                .setOperation(convertToTypedMessage(operation)).build();
         AlterInboundResponse ignored = handlerServiceBlockingStub.alterInbound(request);
     }
+
+    /**
+     * 为 Vmess Inbound 删除用户
+     *
+     * @param tag   标签名
+     * @param email email
+     */
+    public void removeVmessInboundUser(String tag, @NotNull String email) {
+        RemoveUserOperation operation = RemoveUserOperation.newBuilder().setEmail(email).build();
+        AlterInboundRequest request = AlterInboundRequest.newBuilder().setTag(tag)
+                .setOperation(convertToTypedMessage(operation)).build();
+        AlterInboundResponse ignored = handlerServiceBlockingStub.alterInbound(request);
+    }
+
+//    /**
+//     * 添加一个 Outbound 配置
+//     *
+//     * @param outbound 配置信息
+//     */
+//    public void addOutbound(@NotNull Outbound outbound) throws AppException {
+//
+//        InboundHandlerConfig inboundConfig = outbound.toInboundHandlerConfig();
+//        AddInboundResponse ignored = handlerServiceBlockingStub.addInbound(AddInboundRequest.newBuilder()
+//                .setInbound(inboundConfig)
+//                .build());
+//    }
 
     @Override
     public void close() throws IOException {
