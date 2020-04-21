@@ -7,6 +7,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.protobuf.GeneratedMessageV3;
+import com.v2ray.core.InboundHandlerConfig;
+import com.v2ray.core.OutboundHandlerConfig;
+import com.v2ray.core.common.serial.TypedMessage;
+import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.utils.JsonUtil;
 import me.mclee.v2ray.panel.entity.v2ray.Protocol;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.mux.Mux;
@@ -125,6 +130,23 @@ public class Outbound {
 
     public void setMux(Mux mux) {
         this.mux = mux;
+    }
+
+    public OutboundHandlerConfig toOutboundHandlerConfig() throws AppException {
+        // TODO
+        return OutboundHandlerConfig.newBuilder().setTag(tag).build();
+    }
+
+    /**
+     * 转化需要的结构体为TypedMessage
+     *
+     * @param message V2RayApi proto 结构体
+     * @return TypedMessage
+     */
+    private TypedMessage convertToTypedMessage(GeneratedMessageV3 message) {
+        return TypedMessage.newBuilder()
+                .setType(message.getDescriptorForType().getFullName())
+                .setValue(message.toByteString()).build();
     }
 
     public static class OutboundSettingDeserializer extends JsonDeserializer<OutboundSettings> {
