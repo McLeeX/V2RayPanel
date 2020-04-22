@@ -13,10 +13,10 @@ import java.io.IOException;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS;
 
-public class JsonUtil {
-    private static final Logger log = LoggerFactory.getLogger(JsonUtil.class);
+public class JsonUtils {
+    private static final Logger log = LoggerFactory.getLogger(JsonUtils.class);
 
-    private static ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     static {
 

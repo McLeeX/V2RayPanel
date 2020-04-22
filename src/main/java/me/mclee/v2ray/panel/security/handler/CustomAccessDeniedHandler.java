@@ -2,7 +2,7 @@ package me.mclee.v2ray.panel.security.handler;
 
 import me.mclee.v2ray.panel.common.ErrorCode;
 import me.mclee.v2ray.panel.common.ResponseData;
-import me.mclee.v2ray.panel.common.utils.JsonUtil;
+import me.mclee.v2ray.panel.common.utils.JsonUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
@@ -22,7 +22,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
         ResponseData<Serializable> responseData = ResponseData.fail(ErrorCode.AUTHENTICATION_ERROR);
-        String responseBody = JsonUtil.obj2String(responseData);
+        String responseBody = JsonUtils.obj2String(responseData);
         httpServletResponse.setCharacterEncoding("utf-8");
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
         httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());

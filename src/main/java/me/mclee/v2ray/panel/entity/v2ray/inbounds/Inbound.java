@@ -22,7 +22,7 @@ import com.v2ray.core.transport.internet.tls.Config;
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
 import me.mclee.v2ray.panel.common.utils.CommonUtils;
-import me.mclee.v2ray.panel.common.utils.JsonUtil;
+import me.mclee.v2ray.panel.common.utils.JsonUtils;
 import me.mclee.v2ray.panel.entity.v2ray.Protocol;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.allocate.Allocate;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.InboundSettings;
@@ -96,22 +96,22 @@ public class Inbound {
             String sSettings = settings.toString();
             switch (protocol) {
                 case HTTP:
-                    inboundSetting = JsonUtil.string2Obj(sSettings, HTTP.class);
+                    inboundSetting = JsonUtils.string2Obj(sSettings, HTTP.class);
                     break;
                 case DokodemoDoor:
-                    inboundSetting = JsonUtil.string2Obj(sSettings, DokodemoDoor.class);
+                    inboundSetting = JsonUtils.string2Obj(sSettings, DokodemoDoor.class);
                     break;
                 case MTProto:
-                    inboundSetting = JsonUtil.string2Obj(sSettings, MTProto.class);
+                    inboundSetting = JsonUtils.string2Obj(sSettings, MTProto.class);
                     break;
                 case Shadowsocks:
-                    inboundSetting = JsonUtil.string2Obj(sSettings, Shadowsocks.class);
+                    inboundSetting = JsonUtils.string2Obj(sSettings, Shadowsocks.class);
                     break;
                 case Socks:
-                    inboundSetting = JsonUtil.string2Obj(sSettings, Socks.class);
+                    inboundSetting = JsonUtils.string2Obj(sSettings, Socks.class);
                     break;
                 case VMess:
-                    inboundSetting = JsonUtil.string2Obj(sSettings, VMess.class);
+                    inboundSetting = JsonUtils.string2Obj(sSettings, VMess.class);
                     break;
                 default:
                     inboundSetting = null;

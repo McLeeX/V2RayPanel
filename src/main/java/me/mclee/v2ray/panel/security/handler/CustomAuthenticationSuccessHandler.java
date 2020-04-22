@@ -1,7 +1,7 @@
 package me.mclee.v2ray.panel.security.handler;
 
 import me.mclee.v2ray.panel.common.ResponseData;
-import me.mclee.v2ray.panel.common.utils.JsonUtil;
+import me.mclee.v2ray.panel.common.utils.JsonUtils;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -20,7 +20,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         ResponseData<Serializable> responseData = ResponseData.success();
-        String responseBody = JsonUtil.obj2String(responseData);
+        String responseBody = JsonUtils.obj2String(responseData);
         response.setCharacterEncoding("utf-8");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         PrintWriter writer = response.getWriter();

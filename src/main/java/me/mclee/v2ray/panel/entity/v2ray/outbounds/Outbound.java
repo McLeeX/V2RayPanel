@@ -24,7 +24,7 @@ import com.v2ray.core.transport.internet.kcp.*;
 import com.v2ray.core.transport.internet.tls.Config;
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
-import me.mclee.v2ray.panel.common.utils.JsonUtil;
+import me.mclee.v2ray.panel.common.utils.JsonUtils;
 import me.mclee.v2ray.panel.entity.v2ray.Protocol;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.mux.Mux;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.OutboundSettings;
@@ -92,28 +92,28 @@ public class Outbound {
             String sSettings = settings.toString();
             switch (protocol) {
                 case Blackhole:
-                    outboundSetting = JsonUtil.string2Obj(sSettings, Blackhole.class);
+                    outboundSetting = JsonUtils.string2Obj(sSettings, Blackhole.class);
                     break;
                 case DNS:
-                    outboundSetting = JsonUtil.string2Obj(sSettings, Dns.class);
+                    outboundSetting = JsonUtils.string2Obj(sSettings, Dns.class);
                     break;
                 case Freedom:
-                    outboundSetting = JsonUtil.string2Obj(sSettings, Freedom.class);
+                    outboundSetting = JsonUtils.string2Obj(sSettings, Freedom.class);
                     break;
                 case HTTP:
-                    outboundSetting = JsonUtil.string2Obj(sSettings, HTTP.class);
+                    outboundSetting = JsonUtils.string2Obj(sSettings, HTTP.class);
                     break;
                 case MTProto:
-                    outboundSetting = JsonUtil.string2Obj(sSettings, MTProto.class);
+                    outboundSetting = JsonUtils.string2Obj(sSettings, MTProto.class);
                     break;
                 case Shadowsocks:
-                    outboundSetting = JsonUtil.string2Obj(sSettings, Shadowsocks.class);
+                    outboundSetting = JsonUtils.string2Obj(sSettings, Shadowsocks.class);
                     break;
                 case Socks:
-                    outboundSetting = JsonUtil.string2Obj(sSettings, Socks.class);
+                    outboundSetting = JsonUtils.string2Obj(sSettings, Socks.class);
                     break;
                 case VMess:
-                    outboundSetting = JsonUtil.string2Obj(sSettings, VMess.class);
+                    outboundSetting = JsonUtils.string2Obj(sSettings, VMess.class);
                     break;
                 default:
                     outboundSetting = null;
