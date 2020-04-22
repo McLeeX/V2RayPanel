@@ -2,6 +2,7 @@ package me.mclee.v2ray.panel.grpc;
 
 import com.google.protobuf.GeneratedMessageV3;
 import com.v2ray.core.InboundHandlerConfig;
+import com.v2ray.core.OutboundHandlerConfig;
 import com.v2ray.core.app.proxyman.command.*;
 import com.v2ray.core.common.protocol.User;
 import com.v2ray.core.common.serial.TypedMessage;
@@ -11,6 +12,7 @@ import io.grpc.ManagedChannelBuilder;
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.Inbound;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.vmess.Client;
+import me.mclee.v2ray.panel.entity.v2ray.outbounds.Outbound;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Closeable;
@@ -90,18 +92,26 @@ public class HandlerService implements Closeable {
         AlterInboundResponse ignored = handlerServiceBlockingStub.alterInbound(request);
     }
 
-//    /**
-//     * 添加一个 Outbound 配置
-//     *
-//     * @param outbound 配置信息
-//     */
-//    public void addOutbound(@NotNull Outbound outbound) throws AppException {
-//
-//        InboundHandlerConfig inboundConfig = outbound.toInboundHandlerConfig();
-//        AddInboundResponse ignored = handlerServiceBlockingStub.addInbound(AddInboundRequest.newBuilder()
-//                .setInbound(inboundConfig)
-//                .build());
-//    }
+    /**
+     * 添加一个 Outbound 配置
+     *
+     * @param outbound 配置信息
+     */
+    public void addOutbound(@NotNull Outbound outbound) throws AppException {
+        OutboundHandlerConfig outboundConfig = outbound.toOutboundHandlerConfig();
+        AddOutboundRequest request = AddOutboundRequest.newBuilder().setOutbound(outboundConfig).build();
+        AddOutboundResponse ignore = handlerServiceBlockingStub.addOutbound(request);
+    }
+
+    /**
+     * 删除一个 Outbound 配置
+     *
+     * @param tag 要删除的 Outbound 的标签名
+     */
+    public void removeOutbound(String tag) {
+        RemoveOutboundRequest request = RemoveOutboundRequest.newBuilder().setTag(tag).build();
+        RemoveOutboundResponse ignored = handlerServiceBlockingStub.removeOutbound(request);
+    }
 
     @Override
     public void close() throws IOException {
