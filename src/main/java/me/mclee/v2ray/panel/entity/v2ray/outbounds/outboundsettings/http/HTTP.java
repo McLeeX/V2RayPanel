@@ -1,22 +1,22 @@
-package me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.socks;
+package me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.http;
 
 import com.google.protobuf.ByteString;
 import com.v2ray.core.common.net.IPOrDomain;
 import com.v2ray.core.common.protocol.ServerEndpoint;
-import com.v2ray.core.proxy.socks.Account;
-import com.v2ray.core.proxy.socks.ClientConfig;
+import com.v2ray.core.common.protocol.User;
+import com.v2ray.core.proxy.http.ClientConfig;
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
 import me.mclee.v2ray.panel.common.utils.CommonUtils;
+import me.mclee.v2ray.panel.entity.v2ray.Account;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.OutboundSettings;
 import org.springframework.util.CollectionUtils;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
-import java.util.Optional;
 
-public class Socks extends OutboundSettings {
+public class HTTP extends OutboundSettings {
     private List<Server> servers;
 
     public List<Server> getServers() {
@@ -45,16 +45,13 @@ public class Socks extends OutboundSettings {
                 serverEndpointBuilder.setAddress(ip);
                 Integer port = server.getPort();
                 serverEndpointBuilder.setPort(port);
-                List<User> users = server.getUsers();
+                List<Account> users = server.getUsers();
                 if (!CollectionUtils.isEmpty(users)) {
-                    for (User user : users) {
-                        com.v2ray.core.common.protocol.User.Builder socksUserBuilder = com.v2ray.core.common.protocol.User.newBuilder();
-                        Optional.ofNullable(user.getLevel()).ifPresent(socksUserBuilder::setLevel);
-                        String username = user.getUser();
-                        String password = user.getPass();
-                        Account account = Account.newBuilder().setUsername(username).setPassword(password).build();
-                        socksUserBuilder.setAccount(CommonUtils.convertToTypedMessage(account));
-                        serverEndpointBuilder.addUser(socksUserBuilder);
+                    for (Account user : users) {
+                        com.v2ray.core.proxy.http.Account account = com.v2ray.core.proxy.http.Account.newBuilder()
+                                .setUsername(user.getUser()).setPassword(user.getPass()).build();
+                        User httpUser = User.newBuilder().setAccount(CommonUtils.convertToTypedMessage(account)).build();
+                        serverEndpointBuilder.addUser(httpUser);
                     }
                 }
                 builder.addServer(serverEndpointBuilder);
