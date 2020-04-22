@@ -127,6 +127,10 @@ public class Outbound {
         this.settings = settings;
     }
 
+    public void setSettings(OutboundSettings settings) {
+        this.settings = JsonUtils.obj2JsonNode(settings);
+    }
+
     public String getTag() {
         return tag;
     }

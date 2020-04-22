@@ -2,6 +2,8 @@ package me.mclee.v2ray.panel.service.impl;
 
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
+import me.mclee.v2ray.panel.common.utils.JsonUtils;
+import me.mclee.v2ray.panel.entity.v2ray.Config;
 import me.mclee.v2ray.panel.service.V2rayService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * V2ray 工具类
@@ -65,6 +71,44 @@ public class V2rayServiceImpl implements V2rayService, InitializingBean, Disposa
             LOGGER.info("停止 v2ray 服务。");
         }
     }
+
+    /**
+     * 读取当前配置
+     *
+     * @return v2ray 配置类
+     */
+    @Override
+    public Config getConfig() throws AppException {
+        Path path = Paths.get(V2RAY_CONFIG_PATH);
+        try {
+            List<String> lines = Files.readAllLines(path);
+            StringBuilder stringBuilder = new StringBuilder();
+            lines.forEach(stringBuilder::append);
+            return JsonUtils.string2Obj(stringBuilder.toString(), Config.class);
+        } catch (IOException e) {
+            LOGGER.error("读取配置文件信息失败。", e);
+            throw new AppException(ErrorCode.INTERNAL_ERROR, e);
+        }
+    }
+
+    /**
+     * 更新配置文件
+     *
+     * @param config 配置信息
+     * @throws AppException 更新文件失败
+     */
+    @Override
+    public synchronized void updateConfig(Config config) throws AppException {
+        String json = JsonUtils.obj2StringPretty(config);
+        Path path = Paths.get(V2RAY_CONFIG_PATH);
+        try {
+            Files.write(path, json.getBytes());
+        } catch (IOException e) {
+            LOGGER.error("更新配置文件信息失败。", e);
+            throw new AppException(ErrorCode.INTERNAL_ERROR, e);
+        }
+    }
+
 
     @Override
     public void afterPropertiesSet() throws Exception {

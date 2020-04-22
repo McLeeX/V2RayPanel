@@ -3,6 +3,7 @@ package me.mclee.v2ray.panel.common.utils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,5 +127,9 @@ public class JsonUtils {
             log.warn("Parse String to Object error", e);
             return null;
         }
+    }
+
+    public static JsonNode obj2JsonNode(Object object){
+        return objectMapper.valueToTree(object);
     }
 }
