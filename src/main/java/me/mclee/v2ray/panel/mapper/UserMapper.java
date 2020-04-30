@@ -37,7 +37,17 @@ public interface UserMapper {
     /**
      * @mbg.generated generated automatically, do not modify!
      */
+    List<User> selectByExampleWithLock(UserExample example);
+
+    /**
+     * @mbg.generated generated automatically, do not modify!
+     */
     List<User> selectByExample(UserExample example);
+
+    /**
+     * @mbg.generated generated automatically, do not modify!
+     */
+    User selectByPrimaryKeyWithLock(Integer id);
 
     /**
      * @mbg.generated generated automatically, do not modify!

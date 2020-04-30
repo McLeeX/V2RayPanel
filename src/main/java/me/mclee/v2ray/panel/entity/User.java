@@ -1,13 +1,11 @@
 package me.mclee.v2ray.panel.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * Table: USER
  */
-@Setter
-@Getter
+@Data
 public class User {
     /**
      * Column: ID
@@ -38,5 +36,4 @@ public class User {
      * Remark: 角色
      */
     private Integer role;
-
 }

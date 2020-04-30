@@ -107,20 +107,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="me.mclee.v2ray.panel.entity.User">
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="me.mclee.v2ray.panel.entity.User" useGeneratedKeys="true">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    insert into USER (ID, `NAME`, EMAIL, 
-      `PASSWORD`, `ROLE`)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER})
+    insert into USER (`NAME`, EMAIL, `PASSWORD`, 
+      `ROLE`)
+    values (#{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{role,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="me.mclee.v2ray.panel.entity.User">
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="me.mclee.v2ray.panel.entity.User" useGeneratedKeys="true">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     insert into USER
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
       <if test="name != null">
         `NAME`,
       </if>
@@ -135,9 +132,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -223,4 +217,28 @@
       `ROLE` = #{role,jdbcType=INTEGER}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByExampleWithLock" parameterType="me.mclee.v2ray.panel.entity.UserExample" resultMap="BaseResultMap">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from USER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    for update
+  </select>
+  <select id="selectByPrimaryKeyWithLock" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    select 
+    <include refid="Base_Column_List" />
+    from USER
+    where ID = #{id,jdbcType=INTEGER}
+    for update
+  </select>
 </mapper>
