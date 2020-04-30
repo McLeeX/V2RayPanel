@@ -5,6 +5,8 @@ import com.v2ray.core.common.net.IPOrDomain;
 import com.v2ray.core.common.protocol.ServerEndpoint;
 import com.v2ray.core.proxy.socks.Account;
 import com.v2ray.core.proxy.socks.ClientConfig;
+import lombok.Getter;
+import lombok.Setter;
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
 import me.mclee.v2ray.panel.common.utils.CommonUtils;
@@ -16,16 +18,10 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Optional;
 
+@Setter
+@Getter
 public class Socks extends OutboundSettings {
     private List<Server> servers;
-
-    public List<Server> getServers() {
-        return servers;
-    }
-
-    public void setServers(List<Server> servers) {
-        this.servers = servers;
-    }
 
     @Override
     public ClientConfig toGRpcType() throws AppException {

@@ -1,11 +1,13 @@
 package me.mclee.v2ray.panel.entity.v2ray.outbounds.builder;
 
+import lombok.Getter;
 import me.mclee.v2ray.panel.entity.v2ray.Protocol;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.Outbound;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.freedom.DomainStrategy;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.freedom.Freedom;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.proxysettings.ProxySettings;
 
+@Getter
 public class FreedomOutBuilder {
     private String tag;
     private DomainStrategy domainStrategy;
@@ -32,17 +34,9 @@ public class FreedomOutBuilder {
         return outbound;
     }
 
-    public String getTag() {
-        return tag;
-    }
-
     public FreedomOutBuilder setTag(String tag) {
         this.tag = tag;
         return this;
-    }
-
-    public DomainStrategy getDomainStrategy() {
-        return domainStrategy;
     }
 
     public FreedomOutBuilder setDomainStrategy(DomainStrategy domainStrategy) {
@@ -50,17 +44,9 @@ public class FreedomOutBuilder {
         return this;
     }
 
-    public String getRedirect() {
-        return redirect;
-    }
-
     public FreedomOutBuilder setRedirect(String redirect) {
         this.redirect = redirect;
         return this;
-    }
-
-    public Integer getUserLevel() {
-        return userLevel;
     }
 
     public FreedomOutBuilder setUserLevel(Integer userLevel) {

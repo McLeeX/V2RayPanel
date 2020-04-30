@@ -4,12 +4,16 @@ import com.v2ray.core.common.protocol.User;
 import com.v2ray.core.proxy.shadowsocks.Account;
 import com.v2ray.core.proxy.shadowsocks.CipherType;
 import com.v2ray.core.proxy.shadowsocks.ServerConfig;
+import lombok.Getter;
+import lombok.Setter;
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.utils.CommonUtils;
 import me.mclee.v2ray.panel.entity.v2ray.Method;
 import me.mclee.v2ray.panel.entity.v2ray.Network;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.InboundSettings;
 
+@Getter
+@Setter
 public class Shadowsocks extends InboundSettings {
     private String email;
     private Method method;
@@ -17,54 +21,6 @@ public class Shadowsocks extends InboundSettings {
     private Integer level;
     private Boolean ota;
     private Network network;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Method getMethod() {
-        return method;
-    }
-
-    public void setMethod(Method method) {
-        this.method = method;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
-    public Boolean getOta() {
-        return ota;
-    }
-
-    public void setOta(Boolean ota) {
-        this.ota = ota;
-    }
-
-    public Network getNetwork() {
-        return network;
-    }
-
-    public void setNetwork(Network network) {
-        this.network = network;
-    }
 
     @Override
     public ServerConfig toGRpcType() throws AppException {

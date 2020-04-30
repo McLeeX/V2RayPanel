@@ -7,6 +7,8 @@ import com.v2ray.core.common.protocol.SecurityType;
 import com.v2ray.core.common.protocol.ServerEndpoint;
 import com.v2ray.core.proxy.vmess.Account;
 import com.v2ray.core.proxy.vmess.outbound.Config;
+import lombok.Getter;
+import lombok.Setter;
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
 import me.mclee.v2ray.panel.common.utils.CommonUtils;
@@ -18,16 +20,10 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Optional;
 
+@Setter
+@Getter
 public class VMess extends OutboundSettings {
     private List<Vnext> vnext;
-
-    public List<Vnext> getVnext() {
-        return vnext;
-    }
-
-    public void setVnext(List<Vnext> vnext) {
-        this.vnext = vnext;
-    }
 
     @Override
     public Config toGRpcType() throws AppException {

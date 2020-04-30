@@ -4,22 +4,18 @@ import com.google.protobuf.ByteString;
 import com.v2ray.core.common.serial.TypedMessage;
 import com.v2ray.core.proxy.mtproto.Account;
 import com.v2ray.core.proxy.mtproto.ServerConfig;
+import lombok.Getter;
+import lombok.Setter;
 import me.mclee.v2ray.panel.common.utils.CommonUtils;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.InboundSettings;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
+@Getter
+@Setter
 public class MTProto extends InboundSettings {
     private List<User> users;
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 
     @Override
     public ServerConfig toGRpcType() {

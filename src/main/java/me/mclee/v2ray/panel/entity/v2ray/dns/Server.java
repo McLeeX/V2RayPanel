@@ -8,12 +8,16 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Getter
+@Setter
 @JsonDeserialize(using = Server.ServiceDeserializer.class)
 public class Server {
 
@@ -26,38 +30,6 @@ public class Server {
     private Integer port;
     private List<String> domains;
     private List<String> expectIPs;
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
-
-    public void setPort(Integer port) {
-        this.port = port;
-    }
-
-    public List<String> getDomains() {
-        return domains;
-    }
-
-    public void setDomains(List<String> domains) {
-        this.domains = domains;
-    }
-
-    public List<String> getExpectIPs() {
-        return expectIPs;
-    }
-
-    public void setExpectIPs(List<String> expectIPs) {
-        this.expectIPs = expectIPs;
-    }
 
     @JsonIgnore
     public boolean isDOH() {

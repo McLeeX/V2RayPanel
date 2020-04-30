@@ -5,6 +5,8 @@ import com.v2ray.core.common.net.IPOrDomain;
 import com.v2ray.core.common.protocol.ServerEndpoint;
 import com.v2ray.core.common.protocol.User;
 import com.v2ray.core.proxy.http.ClientConfig;
+import lombok.Getter;
+import lombok.Setter;
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
 import me.mclee.v2ray.panel.common.utils.CommonUtils;
@@ -16,16 +18,10 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
+@Setter
+@Getter
 public class HTTP extends OutboundSettings {
     private List<Server> servers;
-
-    public List<Server> getServers() {
-        return servers;
-    }
-
-    public void setServers(List<Server> servers) {
-        this.servers = servers;
-    }
 
     @Override
     public ClientConfig toGRpcType() throws AppException {

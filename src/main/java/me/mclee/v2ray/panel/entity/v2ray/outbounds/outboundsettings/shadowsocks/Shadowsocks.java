@@ -7,6 +7,8 @@ import com.v2ray.core.common.protocol.User;
 import com.v2ray.core.proxy.shadowsocks.Account;
 import com.v2ray.core.proxy.shadowsocks.CipherType;
 import com.v2ray.core.proxy.shadowsocks.ClientConfig;
+import lombok.Getter;
+import lombok.Setter;
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
 import me.mclee.v2ray.panel.common.utils.CommonUtils;
@@ -19,16 +21,10 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Optional;
 
+@Setter
+@Getter
 public class Shadowsocks extends OutboundSettings {
     private List<Server> servers;
-
-    public List<Server> getServers() {
-        return servers;
-    }
-
-    public void setServers(List<Server> servers) {
-        this.servers = servers;
-    }
 
     @Override
     public ClientConfig toGRpcType() throws AppException {

@@ -4,6 +4,8 @@ import com.google.protobuf.ByteString;
 import com.v2ray.core.common.net.Endpoint;
 import com.v2ray.core.common.net.IPOrDomain;
 import com.v2ray.core.proxy.dns.Config;
+import lombok.Getter;
+import lombok.Setter;
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.OutboundSettings;
@@ -11,34 +13,12 @@ import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.OutboundSett
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+@Setter
+@Getter
 public class Dns extends OutboundSettings {
     private Network network;
     private String address;
     private Integer port;
-
-    public Network getNetwork() {
-        return network;
-    }
-
-    public void setNetwork(Network network) {
-        this.network = network;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
-
-    public void setPort(Integer port) {
-        this.port = port;
-    }
 
     @Override
     public Config toGRpcType() throws AppException {

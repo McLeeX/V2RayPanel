@@ -1,10 +1,12 @@
 package me.mclee.v2ray.panel.entity.v2ray.outbounds.builder;
 
+import lombok.Getter;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.Outbound;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.blackhole.Blackhole;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.blackhole.Response;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.blackhole.Type;
 
+@Getter
 public class BlackholeOutBuilder {
 
     private String tag;
@@ -24,17 +26,9 @@ public class BlackholeOutBuilder {
         return outbound;
     }
 
-    public String getTag() {
-        return tag;
-    }
-
     public BlackholeOutBuilder setTag(String tag) {
         this.tag = tag;
         return this;
-    }
-
-    public Type getType() {
-        return type;
     }
 
     public BlackholeOutBuilder setType(Type type) {
