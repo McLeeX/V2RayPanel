@@ -1,20 +1,21 @@
 package me.mclee.v2ray.panel.entity.v2ray.outbounds.builder;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.Outbound;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.blackhole.Blackhole;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.blackhole.Response;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.blackhole.Type;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
+@RequiredArgsConstructor
 public class BlackholeOutBuilder {
 
+    @NotNull
     private String tag;
     private Type type;
-
-    public BlackholeOutBuilder(String tag) {
-        this.tag = tag;
-    }
 
     public Outbound build() {
         Outbound outbound = new Outbound();
