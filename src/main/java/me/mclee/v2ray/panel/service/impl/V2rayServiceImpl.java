@@ -11,8 +11,10 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -43,15 +45,18 @@ public class V2rayServiceImpl implements V2rayService, InitializingBean, Disposa
         try {
             v2rayProcess = pb.start();
             Thread thread = new Thread(() -> {
-                try (InputStream inputStream = v2rayProcess.getInputStream()) {
-                    byte[] buffer = new byte[2048];
-                    while (inputStream.read(buffer) > 0) {
-                        System.out.print(new String(buffer));
+                try (InputStream inputStream = v2rayProcess.getInputStream();
+                     InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                     BufferedReader reader = new BufferedReader(inputStreamReader)) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        LOGGER.info(line);
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    LOGGER.error("v2ray 日志收集失败。", e);
                 }
             });
+            thread.setName("v2ray-logger");
             thread.setDaemon(true);
             thread.start();
             LOGGER.info("成功启动 v2ray 服务。");
