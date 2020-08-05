@@ -10,17 +10,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/v2ray/config")
+@RequestMapping("/v2ray")
 @RestController
 @Slf4j
-public class ConfigController {
+public class V2rayController {
 
     @Autowired
     private V2rayService v2rayService;
 
     @GetMapping
+    @RequestMapping("/config")
     public ResponseData<Config> config() throws AppException {
         Config config = v2rayService.getConfig();
         return ResponseData.success(config);
+    }
+
+    @GetMapping
+    @RequestMapping("/status")
+    public ResponseData<Boolean> status() {
+        return ResponseData.success(v2rayService.isRunning());
     }
 }
