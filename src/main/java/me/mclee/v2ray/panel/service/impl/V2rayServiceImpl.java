@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
 import me.mclee.v2ray.panel.common.AppException;
@@ -66,6 +67,14 @@ public class V2rayServiceImpl implements V2rayService, InitializingBean, Disposa
             v2rayProcess.destroy();
             log.info("停止 v2ray 服务。");
         }
+    }
+
+    /**
+     * @return 是否正在运行
+     */
+    @Override
+    public boolean isRunning() {
+        return Optional.ofNullable(v2rayProcess).map(Process::isAlive).orElse(false);
     }
 
     /**

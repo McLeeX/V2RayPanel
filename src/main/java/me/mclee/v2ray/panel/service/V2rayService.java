@@ -15,6 +15,11 @@ public interface V2rayService {
     void stop();
 
     /**
+     * @return 是否正在运行
+     */
+    boolean isRunning();
+
+    /**
      * 读取当前配置
      *
      * @return v2ray 配置类
