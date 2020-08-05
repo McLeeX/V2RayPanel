@@ -1,5 +1,7 @@
 package me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.http;
 
+import java.util.List;
+
 import com.v2ray.core.proxy.http.ServerConfig;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,8 +9,6 @@ import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.entity.v2ray.Account;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.InboundSettings;
 import org.springframework.util.CollectionUtils;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -19,7 +19,7 @@ public class HTTP extends InboundSettings {
     private Integer userLevel;
 
     @Override
-    public ServerConfig toGRpcType() throws AppException {
+    public ServerConfig toGrpcType() throws AppException {
         ServerConfig.Builder builder = ServerConfig.newBuilder();
         if (this.timeout != null) {
             builder.setTimeout(this.timeout);

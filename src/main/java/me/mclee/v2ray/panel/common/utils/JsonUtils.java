@@ -1,5 +1,9 @@
 package me.mclee.v2ray.panel.common.utils;
 
+import java.io.IOException;
+
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+import static com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
@@ -9,27 +13,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
-
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
-import static com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS;
-
 public class JsonUtils {
     private static final Logger log = LoggerFactory.getLogger(JsonUtils.class);
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     static {
 
         //对象的所有字段全部列入
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
         //忽略空Bean转json的错误
-        objectMapper.configure(FAIL_ON_EMPTY_BEANS, false);
+        OBJECT_MAPPER.configure(FAIL_ON_EMPTY_BEANS, false);
 
         //反序列化
         //忽略 在json字符串中存在，但是在java对象中不存在对应属性的情况。防止错误
-        objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
+        OBJECT_MAPPER.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     /**
@@ -44,7 +43,7 @@ public class JsonUtils {
             return null;
         }
         try {
-            return obj instanceof String ? (String) obj : objectMapper.writeValueAsString(obj);
+            return obj instanceof String ? (String) obj : OBJECT_MAPPER.writeValueAsString(obj);
         } catch (Exception e) {
             log.warn("Parse Object to String error", e);
             return null;
@@ -63,7 +62,7 @@ public class JsonUtils {
             return null;
         }
         try {
-            return obj instanceof String ? (String) obj : objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+            return obj instanceof String ? (String) obj : OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
         } catch (Exception e) {
             log.warn("Parse Object to String error", e);
             return null;
@@ -83,7 +82,7 @@ public class JsonUtils {
             return null;
         }
         try {
-            return (clazz == String.class) ? (T) str : objectMapper.readValue(str, clazz);
+            return (clazz == String.class) ? (T) str : OBJECT_MAPPER.readValue(str, clazz);
         } catch (IOException e) {
             log.warn("Parse String to Object error", e);
             return null;
@@ -103,7 +102,7 @@ public class JsonUtils {
             return null;
         }
         try {
-            return (T) ((typeReference.getType().equals(String.class)) ? str : objectMapper.readValue(str, typeReference.getClass()));
+            return (T) ((typeReference.getType().equals(String.class)) ? str : OBJECT_MAPPER.readValue(str, typeReference.getClass()));
         } catch (IOException e) {
             log.warn("Parse String to Object error", e);
             return null;
@@ -120,9 +119,9 @@ public class JsonUtils {
      * @return 对象
      */
     public static <T> T string2Obj(String str, Class<?> collectionClass, Class<?>... elementClasses) {
-        JavaType javaType = objectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
+        JavaType javaType = OBJECT_MAPPER.getTypeFactory().constructParametricType(collectionClass, elementClasses);
         try {
-            return objectMapper.readValue(str, javaType);
+            return OBJECT_MAPPER.readValue(str, javaType);
         } catch (IOException e) {
             log.warn("Parse String to Object error", e);
             return null;
@@ -130,6 +129,6 @@ public class JsonUtils {
     }
 
     public static JsonNode obj2JsonNode(Object object){
-        return objectMapper.valueToTree(object);
+        return OBJECT_MAPPER.valueToTree(object);
     }
 }

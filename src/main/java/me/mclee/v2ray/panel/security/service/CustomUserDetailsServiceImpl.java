@@ -1,5 +1,7 @@
 package me.mclee.v2ray.panel.security.service;
 
+import java.util.List;
+
 import me.mclee.v2ray.panel.entity.User;
 import me.mclee.v2ray.panel.entity.UserExample;
 import me.mclee.v2ray.panel.mapper.UserMapper;
@@ -10,10 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserMapper userMapper;

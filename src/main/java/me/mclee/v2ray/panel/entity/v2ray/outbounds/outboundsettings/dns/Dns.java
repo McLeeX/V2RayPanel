@@ -1,5 +1,8 @@
 package me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.dns;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import com.google.protobuf.ByteString;
 import com.v2ray.core.common.net.Endpoint;
 import com.v2ray.core.common.net.IPOrDomain;
@@ -10,9 +13,6 @@ import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.OutboundSettings;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 @Setter
 @Getter
 public class Dns extends OutboundSettings {
@@ -21,7 +21,7 @@ public class Dns extends OutboundSettings {
     private Integer port;
 
     @Override
-    public Config toGRpcType() throws AppException {
+    public Config toGrpcType() throws AppException {
         com.v2ray.core.common.net.Network endpointNetwork;
         switch (network) {
             case tcp:

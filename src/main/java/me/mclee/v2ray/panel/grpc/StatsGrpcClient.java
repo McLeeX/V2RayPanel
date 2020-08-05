@@ -1,20 +1,27 @@
 package me.mclee.v2ray.panel.grpc;
 
-import com.v2ray.core.app.stats.command.*;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-public class StatsService implements Closeable {
+import com.v2ray.core.app.stats.command.GetStatsRequest;
+import com.v2ray.core.app.stats.command.GetStatsResponse;
+import com.v2ray.core.app.stats.command.QueryStatsRequest;
+import com.v2ray.core.app.stats.command.QueryStatsResponse;
+import com.v2ray.core.app.stats.command.Stat;
+import com.v2ray.core.app.stats.command.StatsServiceGrpc;
+import com.v2ray.core.app.stats.command.SysStatsRequest;
+import com.v2ray.core.app.stats.command.SysStatsResponse;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+
+public class StatsGrpcClient implements Closeable {
     private final ManagedChannel channel;
     private final StatsServiceGrpc.StatsServiceBlockingStub statsServiceBlockingStub;
 
-    public StatsService(String host, int port) {
+    public StatsGrpcClient(String host, int port) {
         channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
         statsServiceBlockingStub = StatsServiceGrpc.newBlockingStub(channel);
     }

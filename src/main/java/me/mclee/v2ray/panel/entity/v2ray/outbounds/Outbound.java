@@ -1,5 +1,12 @@
 package me.mclee.v2ray.panel.entity.v2ray.outbounds;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.core.JsonParser;
@@ -20,7 +27,12 @@ import com.v2ray.core.transport.internet.ProxyConfig;
 import com.v2ray.core.transport.internet.SocketConfig;
 import com.v2ray.core.transport.internet.StreamConfig;
 import com.v2ray.core.transport.internet.TransportConfig;
-import com.v2ray.core.transport.internet.kcp.*;
+import com.v2ray.core.transport.internet.kcp.DownlinkCapacity;
+import com.v2ray.core.transport.internet.kcp.MTU;
+import com.v2ray.core.transport.internet.kcp.ReadBuffer;
+import com.v2ray.core.transport.internet.kcp.TTI;
+import com.v2ray.core.transport.internet.kcp.UplinkCapacity;
+import com.v2ray.core.transport.internet.kcp.WriteBuffer;
 import com.v2ray.core.transport.internet.tls.Config;
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
@@ -37,7 +49,11 @@ import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.shadowsocks.
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.socks.Socks;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.vmess.VMess;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.proxysettings.ProxySettings;
-import me.mclee.v2ray.panel.entity.v2ray.streamsettings.*;
+import me.mclee.v2ray.panel.entity.v2ray.streamsettings.Certificate;
+import me.mclee.v2ray.panel.entity.v2ray.streamsettings.Network;
+import me.mclee.v2ray.panel.entity.v2ray.streamsettings.Security;
+import me.mclee.v2ray.panel.entity.v2ray.streamsettings.Sockopt;
+import me.mclee.v2ray.panel.entity.v2ray.streamsettings.StreamSettings;
 import me.mclee.v2ray.panel.entity.v2ray.streamsettings.common.Header;
 import me.mclee.v2ray.panel.entity.v2ray.streamsettings.common.Type;
 import me.mclee.v2ray.panel.entity.v2ray.streamsettings.domainsocket.DsSettings;
@@ -48,13 +64,6 @@ import me.mclee.v2ray.panel.entity.v2ray.streamsettings.tls.TlsSettings;
 import me.mclee.v2ray.panel.entity.v2ray.streamsettings.websocket.WsSettings;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 public class Outbound {
     private String sendThrough;
@@ -401,7 +410,7 @@ public class Outbound {
             senderConfigBuilder.setMultiplexSettings(multiplexingConfig);
         }
         // proxySettings
-        GeneratedMessageV3 proxySettings = this.getSettings().toGRpcType();
+        GeneratedMessageV3 proxySettings = this.getSettings().toGrpcType();
         return OutboundHandlerConfig.newBuilder().setTag(tag)
                 .setSenderSettings(convertToTypedMessage(senderConfigBuilder.build()))
                 .setProxySettings(convertToTypedMessage(proxySettings)).build();

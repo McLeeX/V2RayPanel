@@ -1,5 +1,9 @@
 package me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.socks;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.List;
+
 import com.google.protobuf.ByteString;
 import com.v2ray.core.common.net.IPOrDomain;
 import com.v2ray.core.proxy.socks.AuthType;
@@ -12,10 +16,6 @@ import me.mclee.v2ray.panel.entity.v2ray.Account;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.InboundSettings;
 import org.springframework.util.CollectionUtils;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.List;
-
 @Getter
 @Setter
 public class Socks extends InboundSettings {
@@ -26,7 +26,7 @@ public class Socks extends InboundSettings {
     private Integer userLevel;
 
     @Override
-    public ServerConfig toGRpcType() throws AppException {
+    public ServerConfig toGrpcType() throws AppException {
         ServerConfig.Builder builder = ServerConfig.newBuilder();
         if (this.auth != null) {
             switch (this.auth) {

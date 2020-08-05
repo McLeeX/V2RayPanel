@@ -7,7 +7,7 @@ import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.OutboundSett
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MTProto extends OutboundSettings {
     @Override
-    public ClientConfig toGRpcType() {
+    public ClientConfig toGrpcType() {
         return ClientConfig.newBuilder().build();
     }
 }

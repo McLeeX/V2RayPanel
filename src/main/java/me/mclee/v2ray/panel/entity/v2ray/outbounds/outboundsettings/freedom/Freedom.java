@@ -14,7 +14,7 @@ public class Freedom extends OutboundSettings {
     private Integer userLevel;
 
     @Override
-    public Config toGRpcType() throws AppException {
+    public Config toGrpcType() throws AppException {
         Config.Builder builder = Config.newBuilder();
         Config.DomainStrategy ds;
         switch (domainStrategy) {

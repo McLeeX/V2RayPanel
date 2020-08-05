@@ -1,5 +1,14 @@
 package me.mclee.v2ray.panel.entity.v2ray.inbounds;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -17,7 +26,12 @@ import com.v2ray.core.common.serial.TypedMessage;
 import com.v2ray.core.transport.internet.SocketConfig;
 import com.v2ray.core.transport.internet.StreamConfig;
 import com.v2ray.core.transport.internet.TransportConfig;
-import com.v2ray.core.transport.internet.kcp.*;
+import com.v2ray.core.transport.internet.kcp.DownlinkCapacity;
+import com.v2ray.core.transport.internet.kcp.MTU;
+import com.v2ray.core.transport.internet.kcp.ReadBuffer;
+import com.v2ray.core.transport.internet.kcp.TTI;
+import com.v2ray.core.transport.internet.kcp.UplinkCapacity;
+import com.v2ray.core.transport.internet.kcp.WriteBuffer;
 import com.v2ray.core.transport.internet.tls.Config;
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
@@ -34,7 +48,11 @@ import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.socks.Socks;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.vmess.VMess;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.sniffing.DestOverride;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.sniffing.Sniffing;
-import me.mclee.v2ray.panel.entity.v2ray.streamsettings.*;
+import me.mclee.v2ray.panel.entity.v2ray.streamsettings.Certificate;
+import me.mclee.v2ray.panel.entity.v2ray.streamsettings.Network;
+import me.mclee.v2ray.panel.entity.v2ray.streamsettings.Security;
+import me.mclee.v2ray.panel.entity.v2ray.streamsettings.Sockopt;
+import me.mclee.v2ray.panel.entity.v2ray.streamsettings.StreamSettings;
 import me.mclee.v2ray.panel.entity.v2ray.streamsettings.common.Header;
 import me.mclee.v2ray.panel.entity.v2ray.streamsettings.common.Type;
 import me.mclee.v2ray.panel.entity.v2ray.streamsettings.domainsocket.DsSettings;
@@ -45,11 +63,6 @@ import me.mclee.v2ray.panel.entity.v2ray.streamsettings.tls.TlsSettings;
 import me.mclee.v2ray.panel.entity.v2ray.streamsettings.websocket.WsSettings;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class Inbound {
     private String port;
@@ -442,7 +455,7 @@ public class Inbound {
         }
         ReceiverConfig receiverConfig = receiverConfigBuilder.build();
         // proxySettings
-        GeneratedMessageV3 proxySettings = this.getSettings().toGRpcType();
+        GeneratedMessageV3 proxySettings = this.getSettings().toGrpcType();
         return InboundHandlerConfig.newBuilder().setTag(this.getTag())
                 .setReceiverSettings(CommonUtils.convertToTypedMessage(receiverConfig))
                 .setProxySettings(CommonUtils.convertToTypedMessage(proxySettings)).build();

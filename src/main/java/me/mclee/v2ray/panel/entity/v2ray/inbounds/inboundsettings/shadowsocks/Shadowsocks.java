@@ -23,7 +23,7 @@ public class Shadowsocks extends InboundSettings {
     private Network network;
 
     @Override
-    public ServerConfig toGRpcType() throws AppException {
+    public ServerConfig toGrpcType() throws AppException {
         ServerConfig.Builder builder = ServerConfig.newBuilder();
         if (this.network != null) {
             builder.addAllNetwork(this.network.toGRpcSet());

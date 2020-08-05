@@ -1,5 +1,10 @@
 package me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.vmess;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.List;
+import java.util.Optional;
+
 import com.google.protobuf.ByteString;
 import com.v2ray.core.common.net.IPOrDomain;
 import com.v2ray.core.common.protocol.SecurityConfig;
@@ -15,18 +20,13 @@ import me.mclee.v2ray.panel.common.utils.CommonUtils;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.OutboundSettings;
 import org.springframework.util.CollectionUtils;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.List;
-import java.util.Optional;
-
 @Setter
 @Getter
 public class VMess extends OutboundSettings {
     private List<Vnext> vnext;
 
     @Override
-    public Config toGRpcType() throws AppException {
+    public Config toGrpcType() throws AppException {
         Config.Builder builder = Config.newBuilder();
         if (!CollectionUtils.isEmpty(vnext)) {
             for (Vnext vn : vnext) {

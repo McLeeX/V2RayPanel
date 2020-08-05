@@ -1,5 +1,7 @@
 package me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.vmess;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.v2ray.core.common.protocol.User;
 import com.v2ray.core.proxy.vmess.Account;
@@ -11,8 +13,6 @@ import me.mclee.v2ray.panel.common.utils.CommonUtils;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.InboundSettings;
 import org.springframework.util.CollectionUtils;
 
-import java.util.List;
-
 @Setter
 @Getter
 public class VMess extends InboundSettings {
@@ -23,7 +23,7 @@ public class VMess extends InboundSettings {
     private Boolean disableInsecureEncryption;
 
     @Override
-    public Config toGRpcType() throws AppException {
+    public Config toGrpcType() throws AppException {
         Config.Builder builder = Config.newBuilder();
         if (!CollectionUtils.isEmpty(this.clients)) {
             for (Client client : this.clients) {

@@ -5,7 +5,7 @@ import me.mclee.v2ray.panel.security.handler.CustomAccessDeniedHandler;
 import me.mclee.v2ray.panel.security.handler.CustomAuthenticationFailureHandler;
 import me.mclee.v2ray.panel.security.handler.CustomAuthenticationSuccessHandler;
 import me.mclee.v2ray.panel.security.handler.CustomLogoutSuccessHandler;
-import me.mclee.v2ray.panel.security.service.CustomUserDetailsService;
+import me.mclee.v2ray.panel.security.service.CustomUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private CustomUserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private CustomAuthenticationSuccessHandler authenticationSuccessHandler;

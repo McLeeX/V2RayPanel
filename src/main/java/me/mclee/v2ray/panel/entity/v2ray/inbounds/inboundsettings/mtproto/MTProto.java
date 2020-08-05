@@ -1,5 +1,7 @@
 package me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.mtproto;
 
+import java.util.List;
+
 import com.google.protobuf.ByteString;
 import com.v2ray.core.common.serial.TypedMessage;
 import com.v2ray.core.proxy.mtproto.Account;
@@ -10,15 +12,13 @@ import me.mclee.v2ray.panel.common.utils.CommonUtils;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.InboundSettings;
 import org.springframework.util.CollectionUtils;
 
-import java.util.List;
-
 @Getter
 @Setter
 public class MTProto extends InboundSettings {
     private List<User> users;
 
     @Override
-    public ServerConfig toGRpcType() {
+    public ServerConfig toGrpcType() {
         ServerConfig.Builder builder = ServerConfig.newBuilder();
         if (!CollectionUtils.isEmpty(users)) {
             for (User user : users) {

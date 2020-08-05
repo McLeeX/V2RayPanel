@@ -1,5 +1,9 @@
 package me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.dokodemodoor;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Optional;
+
 import com.google.protobuf.ByteString;
 import com.v2ray.core.common.net.IPOrDomain;
 import com.v2ray.core.proxy.dokodemo.Config;
@@ -9,10 +13,6 @@ import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
 import me.mclee.v2ray.panel.entity.v2ray.Network;
 import me.mclee.v2ray.panel.entity.v2ray.inbounds.inboundsettings.InboundSettings;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Optional;
 
 @Getter
 @Setter
@@ -25,7 +25,7 @@ public class DokodemoDoor extends InboundSettings {
     private Integer userLevel;
 
     @Override
-    public Config toGRpcType() throws AppException {
+    public Config toGrpcType() throws AppException {
         IPOrDomain ip;
         try {
             InetAddress address = InetAddress.getByName(this.address);

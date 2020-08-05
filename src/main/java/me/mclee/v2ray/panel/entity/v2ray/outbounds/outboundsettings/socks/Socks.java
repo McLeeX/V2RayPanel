@@ -1,5 +1,10 @@
 package me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.socks;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.List;
+import java.util.Optional;
+
 import com.google.protobuf.ByteString;
 import com.v2ray.core.common.net.IPOrDomain;
 import com.v2ray.core.common.protocol.ServerEndpoint;
@@ -13,18 +18,13 @@ import me.mclee.v2ray.panel.common.utils.CommonUtils;
 import me.mclee.v2ray.panel.entity.v2ray.outbounds.outboundsettings.OutboundSettings;
 import org.springframework.util.CollectionUtils;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.List;
-import java.util.Optional;
-
 @Setter
 @Getter
 public class Socks extends OutboundSettings {
     private List<Server> servers;
 
     @Override
-    public ClientConfig toGRpcType() throws AppException {
+    public ClientConfig toGrpcType() throws AppException {
         ClientConfig.Builder builder = ClientConfig.newBuilder();
         if (!CollectionUtils.isEmpty(servers)) {
             for (Server server : servers) {
