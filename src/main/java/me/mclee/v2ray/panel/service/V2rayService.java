@@ -28,4 +28,11 @@ public interface V2rayService {
      * @throws AppException 更新文件失败
      */
     void updateConfig(Config config) throws AppException;
+
+    /**
+     * 重启日志服务
+     *
+     * @throws AppException 重启失败
+     */
+    void restartLogger() throws AppException;
 }
