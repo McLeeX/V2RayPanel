@@ -1,13 +1,13 @@
 package me.mclee.v2ray.panel.common.utils;
 
+import java.util.UUID;
+
 import com.google.protobuf.GeneratedMessageV3;
 import com.v2ray.core.common.serial.TypedMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CommonUtils {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtils.class);
 
     /**
      * 转化需要的结构体为TypedMessage
@@ -21,4 +21,12 @@ public class CommonUtils {
                            .setValue(message.toByteString()).build();
     }
 
+    /**
+     * 随机生成 uuid
+     *
+     * @return uuid
+     */
+    public static UUID generateUuid() {
+        return UUID.randomUUID();
+    }
 }

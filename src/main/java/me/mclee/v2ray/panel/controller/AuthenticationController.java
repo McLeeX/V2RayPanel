@@ -1,19 +1,19 @@
 package me.mclee.v2ray.panel.controller;
 
+import java.io.Serializable;
+
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ResponseData;
+import me.mclee.v2ray.panel.common.utils.AuthenticationUtils;
 import me.mclee.v2ray.panel.entity.User;
 import me.mclee.v2ray.panel.entity.model.UserModel;
 import me.mclee.v2ray.panel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.Serializable;
 
 @RestController
 public class AuthenticationController {
@@ -42,7 +42,7 @@ public class AuthenticationController {
      */
     @GetMapping("/auth/me")
     private ResponseData<UserModel> myInformation() throws AppException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = AuthenticationUtils.getAuthentication();
         String username = authentication.getName();
         UserModel userModel = userService.queryUserModelByName(username);
         return ResponseData.success(userModel);

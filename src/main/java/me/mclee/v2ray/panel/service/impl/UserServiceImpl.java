@@ -1,9 +1,13 @@
 package me.mclee.v2ray.panel.service.impl;
 
+import java.util.List;
+import java.util.Optional;
+
 import me.mclee.v2ray.panel.common.AppException;
 import me.mclee.v2ray.panel.common.ErrorCode;
 import me.mclee.v2ray.panel.entity.User;
 import me.mclee.v2ray.panel.entity.UserExample;
+import me.mclee.v2ray.panel.entity.convertor.UserUserModelConverter;
 import me.mclee.v2ray.panel.entity.model.UserModel;
 import me.mclee.v2ray.panel.mapper.UserMapper;
 import me.mclee.v2ray.panel.service.UserService;
@@ -12,9 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserUserModelConverter userUserModelConverter;
 
     /**
      * 根据id查询用户信息
@@ -65,12 +69,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserModel queryUserModelByName(String name) throws AppException {
         User user = queryUserByName(name);
-        UserModel userModel = new UserModel();
-        userModel.setId(user.getId());
-        userModel.setEmail(user.getEmail());
-        userModel.setName(user.getName());
-        userModel.setRole(user.getRole());
-        return userModel;
+        return userUserModelConverter.doForward(user);
     }
 
     /**
